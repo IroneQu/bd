@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<title>Wszystkiego najlepszego 🎁</title>
+		<meta name="language" content="pl-PL" />
+
+		<link rel="icon" href="image/logo.png" type="image/png" />
+		<link rel="apple-touch-icon" href="image/logo.png" />
+
+		<meta property="og:title" content="Prezent dla Anity 🎁" />
+		<meta
+			property="og:description"
+			content="Prezent pełen miłości czeka na odkrycie! Kliknij, aby zobaczyć specjalne życzenia!"
+		/>
+		<meta
+			property="og:image"
+			content="https://happybirthdaydeargift.vercel.app/image/logo.png"
+		/>
+		<meta property="og:type" content="website" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Wszystkiego najlepszego 🎁" />
+		<meta
+			name="twitter:description"
+			content="Czeka na Ciebie prezent pełen miłości! Kliknij, aby zobaczyć specjalną wiadomość!"
+		/>
+		<meta
+			name="twitter:image"
+			content="https://happybirthdaydeargift.vercel.app/image/birthday-gift.jpg"
+		/>
+
+		<link
+			rel="icon"
+			type="image/x-icon"
+			href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png"
+		/>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css?family=Pacifico&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body>
+		<canvas id="matrix-rain" style="display: none"></canvas>
+		<canvas
+			style="
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				z-index: 9999;
+				display: none;
+			"
+			class="canvas"
+		></canvas>
+
+		<div class="overlay">
+			<div class="stars-container" id="starsContainer"></div>
+			<img
+				id="gift-image"
+				src="image/happy3.gif"
+				style="
+					display: none;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					z-index: 10000;
+					max-width: 80%;
+					max-height: 80%;
+				"
+			/>
+			<div class="content-display" id="contentDisplay">
+				<p id="contentText"></p>
+			</div>
+			<div class="firework-container" id="fireworkContainer"></div>
+			<div class="book-container">
+				<div class="book" id="book"></div>
+			</div>
+
+			<button
+				class="music-control"
+				id="musicControl"
+				title="Odtwórz/Zatrzymaj Muzykę"
+			>
+				▶
+			</button>
+
+			<button
+				class="settings-button"
+				id="settingsButton"
+				title="Ustawienia"
+				style="display: none"
+			>
+				⚙
+			</button>
+
+			<div id="settingsHint" class="settings-hint">
+				<div class="hint-text" data-i18n="settingsHint" style="display: none">
+					Kliknij tutaj, aby dostosować ustawienia
+				</div>
+			</div>
+
+			<div id="settingsModal" class="modal">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 data-i18n="settings">⚙️ Ustawienia Strony</h2>
+						<span class="close">×</span>
+					</div>
+					<div class="modal-body">
+						<div class="settings-section">
+							<h3 data-i18n="music">🎵 Ustawienia Dźwięku</h3>
+							<div class="form-group">
+								<label for="backgroundMusic" data-i18n="backgroundMusic"
+									>Muzyka w tle:</label
+								>
+								<div class="music-select-row">
+									<select id="backgroundMusic">
+										<option value="" disabled selected>
+											Ładowanie listy utworów...
+										</option>
+									</select>
+									<button
+										type="button"
+										id="musicPreviewButton"
+										class="music-preview-btn"
+									>
+										▶ Nghe thử
+									</button>
+								</div>
+								<span id="musicPreviewStatus" class="music-preview-status"
+									>Wybierz utwór i naciśnij "Nghe thử"</span
+								>
+							</div>
+						</div>
+
+						<div class="settings-section">
+							<h3 data-i18n="countdown">⏰ Ustawienia Czasu</h3>
+							<div class="form-group">
+								<label for="countdownTime" data-i18n="countdownTime"
+									>Czas odliczania:</label
+								>
+								<select id="countdownTime">
+									<option value="3" data-i18n="sec3">3 sekundy</option>
+									<option value="5" data-i18n="sec5">5 sekund</option>
+									<option value="10" data-i18n="sec10">10 sekund</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="settings-section">
+							<h3 data-i18n="matrix">🌧️ Ustawienia Efektu Deszczu Znaków</h3>
+							<div class="form-group">
+								<label for="matrixText" data-i18n="matrixText"
+									>Główny tekst w tle:</label
+								>
+								<input
+									type="text"
+									id="matrixText"
+									value="HAPPYBIRTHDAY"
+									placeholder="Wpisz tekst dla efektu deszczu znaków"
+									data-i18n-placeholder="matrixText"
+								/>
+							</div>
+							<div class="form-group">
+								<label data-i18n="colorTheme">Wybierz kolor:</label>
+								<div class="color-theme-buttons">
+									<button
+										type="button"
+										class="color-theme-btn active"
+										data-theme="pink"
+									>
+										<div class="color-preview pink-preview"></div>
+										<span data-i18n="pinkTheme">Słodki róż</span>
+									</button>
+									<button
+										type="button"
+										class="color-theme-btn"
+										data-theme="blue"
+									>
+										<div class="color-preview blue-preview"></div>
+										<span data-i18n="blueTheme">Chłodny niebieski</span>
+									</button>
+									<button
+										type="button"
+										class="color-theme-btn"
+										data-theme="purple"
+									>
+										<div class="color-preview purple-preview"></div>
+										<span data-i18n="purpleTheme">Rozmarzony fiolet</span>
+									</button>
+									<button
+										type="button"
+										class="color-theme-btn"
+										data-theme="custom"
+									>
+										<div class="color-preview custom-preview"></div>
+										<span data-i18n="customTheme">Kolor niestandardowy</span>
+									</button>
+								</div>
+							</div>
+							<div
+								class="form-row"
+								id="customColorSection"
+								style="display: none"
+							>
+								<div class="form-group">
+									<label for="matrixColor1" data-i18n="matrixColor1"
+										>Kolor spadających liter 1:</label
+									>
+									<input type="color" id="matrixColor1" value="#ff69b4" />
+								</div>
+								<div class="form-group">
+									<label for="matrixColor2" data-i18n="matrixColor2"
+										>Kolor spadających liter 2:</label
+									>
+									<input type="color" id="matrixColor2" value="#ff1493" />
+								</div>
+							</div>
+						</div>
+
+						<div class="settings-section">
+							<h3 data-i18n="sequence">✨ Ustawienia Głównego Tekstu</h3>
+							<div class="form-group">
+								<label for="sequenceText" data-i18n="sequenceText"
+									>Treść komunikatu:</label
+								>
+								<span
+									data-i18n="noteSequence"
+									style="
+										color: rgb(132, 132, 132);
+										font-weight: normal;
+										font-size: 12px;
+										display: block;
+										margin-bottom: 5px;
+									"
+								>
+									Uwaga: użyj znaku | aby oddzielić słowa, nie twórz zbyt
+									długich linii.
+								</span>
+								<input
+									type="text"
+									id="sequenceText"
+									value="HAPPY|BIRTHDAY|MY|CUTEE|LITTLE|SWARALI|❤"
+									placeholder="Na przykład: WSZYSTKIEGO|NAJLEPSZEGO|..."
+									data-i18n-placeholder="sequenceText"
+								/>
+							</div>
+							<div
+								class="form-group"
+								id="sequenceColorSection"
+								style="display: none"
+							>
+								<label for="sequenceColor" data-i18n="sequenceColor"
+									>Kolor komunikatu:</label
+								>
+								<input type="color" id="sequenceColor" value="#ff69b4" />
+							</div>
+						</div>
+
+						<div class="settings-section">
+							<h3 data-i18n="gift">🎁 Ustawienia Animacji (GIF)</h3>
+							<div class="form-group">
+								<label for="giftImage" data-i18n="giftImage"
+									>Animacja (opcjonalnie):</label
+								>
+								<select id="giftImage">
+									<option value="" data-i18n="noGif">Brak</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="enableBook" data-i18n="enableBook"
+								>Pokaż książkę z życzeniami:</label
+							>
+							<select id="enableBook">
+								<option value="true" data-i18n="on">Włączone</option>
+								<option value="false" data-i18n="off">Wyłączone</option>
+							</select>
+						</div>
+
+						<div class="settings-section" id="bookSettingsSection">
+							<h3 data-i18n="book">📖 Ustawienia Stron Książki</h3>
+							<div id="pageConfigs"></div>
+							<div class="form-group">
+								<label for="enableHeart" data-i18n="enableHeart"
+									>Pokaż efekt spadających serc:</label
+								>
+								<select id="enableHeart">
+									<option value="true" data-i18n="on">Włączone</option>
+									<option value="false" data-i18n="off">Wyłączone</option>
+								</select>
+							</div>
+						</div>
+
+						<button
+							id="applySettings"
+							class="apply-settings-btn"
+							data-i18n="apply"
+						>
+							🎉 Zastosuj Ustawienia
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<audio id="birthdayAudio" loop>
+				<source src="music/wygladasz-tak-pieknie.mp3" type="audio/mpeg" />
+				Twoja przeglądarka nie obsługuje elementu audio.
+			</audio>
+
+			<div id="orientation-lock">
+				<div class="phone-icon">
+					<img src="image/screen.png" alt="" />
+				</div>
+			</div>
+
+			<button
+				id="fullscreenBtn"
+				style="
+					position: fixed;
+					bottom: 20px;
+					right: 20px;
+					z-index: 990010;
+					padding: 10px 18px;
+					border-radius: 8px;
+					border: none;
+					background: #222;
+					color: #fff;
+					font-size: 16px;
+					box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+					cursor: pointer;
+					display: none;
+				"
+			>
+				<img
+					style="width: 20px; height: 20px; vertical-align: middle"
+					src="image/full.png"
+					alt=""
+				/>
+			</button>
+			<script type="text/javascript">
+				// Bypass for developers
+				const keyName = 'key';
+				const keyValue = '9ac7ec230e0e4513578f309d6d3579ad';
+
+				// Handle via config
+				DisableDevtool({
+					tkName: keyName,
+					md5: keyValue,
+					interval: '100',
+				});
+			</script>
+			<script src="jscp/detect-devtools.js"></script>
+			<script src="lang.js"></script>
+			<script src="jscp/settings.js"></script>
+			<script src="jscp/main.js"></script>
+			<script src="jscp/ui.js"></script>
+		</div>
+	</body>
+</html>
