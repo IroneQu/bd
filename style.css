@@ -37,6 +37,66 @@ body {
 		opacity 0.4s;
 }
 
+/* Ten kod uruchomi się TYLKO na telefonach trzymanych w pionie (portrait) */
+@media screen and (max-width: 890px) and (orientation: portrait) {
+	#orientation-lock {
+		display: flex !important; /* Wymuszamy pokazanie */
+		flex-direction: column;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: #111; /* Ciemne tło, żeby nie raziło po oczach */
+		z-index: 9999999; /* Zawsze na samej górze */
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
+
+	#orientation-lock .phone-icon {
+		width: 80px;
+		height: 80px;
+		margin-bottom: 20px;
+		/* Wywołanie animacji obracania */
+		animation: rotatePhoneAnim 2s ease-in-out infinite;
+	}
+
+	#orientation-lock .phone-icon img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		/* Delikatna różowa poświata wokół ikonki telefonu */
+		filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.6));
+	}
+
+	#orientation-lock .rotate-text {
+		font-family:
+			'Dancing Script', cursive; /* Romantyczna czcionka użyta na Twojej stronie */
+		font-size: 28px;
+		color: #ffb6c1; /* Jasnoróżowy kolor tekstu */
+		line-height: 1.4;
+		padding: 0 20px;
+		margin-top: 10px;
+	}
+
+	/* Klatki kluczowe animacji obrotu telefonu (z pionu do poziomu i z powrotem) */
+	@keyframes rotatePhoneAnim {
+		0% {
+			transform: rotate(0deg);
+		}
+		40% {
+			transform: rotate(-90deg);
+		}
+		60% {
+			transform: rotate(-90deg);
+		}
+		100% {
+			transform: rotate(0deg);
+		}
+	}
+}
+
 @keyframes phone-bounce-smooth {
 	0% {
 		transform: rotate(-45deg) scale(1);
