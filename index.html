@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pl">
+<html lang="pl-PL">
 	<head>
 		<meta charset="utf-8" />
 		<meta
@@ -12,33 +12,23 @@
 		<link rel="icon" href="image/logo.png" type="image/png" />
 		<link rel="apple-touch-icon" href="image/logo.png" />
 
-		<meta property="og:title" content="Prezent dla Anity 🎁" />
+		<meta property="og:title" content="Wszystkiego najlepszego Martynka 🎁" />
 		<meta
 			property="og:description"
 			content="Prezent pełen miłości czeka na odkrycie! Kliknij, aby zobaczyć specjalne życzenia!"
 		/>
-		<meta
-			property="og:image"
-			content="https://happybirthdaydeargift.vercel.app/image/logo.png"
-		/>
+		<meta property="og:image" content="image/link-pic.png" />
 		<meta property="og:type" content="website" />
 
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="Wszystkiego najlepszego 🎁" />
+		<meta name="twitter:title" content="Wszystkiego najlepszego Martynka 🎁" />
 		<meta
 			name="twitter:description"
 			content="Czeka na Ciebie prezent pełen miłości! Kliknij, aby zobaczyć specjalną wiadomość!"
 		/>
-		<meta
-			name="twitter:image"
-			content="https://happybirthdaydeargift.vercel.app/image/birthday-gift.jpg"
-		/>
+		<meta name="twitter:image" content="image/link-pic.png" />
 
-		<link
-			rel="icon"
-			type="image/x-icon"
-			href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png"
-		/>
+		<link rel="icon" type="image/x-icon" href="image/logo.png" />
 		<link rel="stylesheet" href="style.css" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -351,19 +341,25 @@
 					alt=""
 				/>
 			</button>
-			<script type="text/javascript">
-				// Bypass for developers
-				const keyName = 'key';
-				const keyValue = '9ac7ec230e0e4513578f309d6d3579ad';
 
-				// Handle via config
-				DisableDevtool({
-					tkName: keyName,
-					md5: keyValue,
-					interval: '100',
+			<script>
+				// Blokada prawego przycisku myszy
+				document.addEventListener('contextmenu', (event) =>
+					event.preventDefault(),
+				);
+
+				// Blokada skrótów klawiszowych (F12, Ctrl+Shift+I, Ctrl+U)
+				document.addEventListener('keydown', function (e) {
+					if (
+						e.key === 'F12' ||
+						(e.ctrlKey && e.shiftKey && e.key === 'I') ||
+						(e.ctrlKey && e.shiftKey && e.key === 'J') ||
+						(e.ctrlKey && e.key === 'U')
+					) {
+						e.preventDefault();
+					}
 				});
 			</script>
-			<script src="jscp/detect-devtools.js"></script>
 			<script src="lang.js"></script>
 			<script src="jscp/settings.js"></script>
 			<script src="jscp/main.js"></script>
